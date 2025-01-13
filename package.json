@@ -1,0 +1,23 @@
+{
+  "name": "backend-2025",
+  "version": "1.0.0",
+  "description": "Repositorio para entrega de desafíos y practica del curso de Backend de CoderHouse.",
+  "main": "ProductManager.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DiegoRugerio97/CH-MaftyShop-DiegoRugerio-Backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DiegoRugerio97/CH-MaftyShop-DiegoRugerio-Backend/issues"
+  },
+  "homepage": "https://github.com/DiegoRugerio97/CH-MaftyShop-DiegoRugerio-Backend#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
