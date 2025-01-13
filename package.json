@@ -1,10 +1,12 @@
 {
   "name": "backend-2025",
   "version": "1.0.0",
+  "type": "module",
   "description": "Repositorio para entrega de desafíos y practica del curso de Backend de CoderHouse.",
   "main": "ProductManager.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.js"
   },
   "repository": {
     "type": "git",
