@@ -133,7 +133,7 @@ class ProductManager {
 
 }
 
-const fs = require('fs')
+import fs from 'fs'
 
 // ProductManager instance with file system
 let filePath = './'
@@ -160,3 +160,5 @@ const logAsync = (promise) => {
 
 // Update
 // logAsync(productManager.updateProduct(10, {"title":"ProductoPruebaUpdated"}))
+
+export default ProductManager
