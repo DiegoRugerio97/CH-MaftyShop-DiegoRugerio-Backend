@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/DiegoRugerio97/CH-MaftyShop-DiegoRugerio-Backend/issues"
   },
-  "homepage": "https://github.com/DiegoRugerio97/CH-MaftyShop-DiegoRugerio-Backend#readme"
+  "homepage": "https://github.com/DiegoRugerio97/CH-MaftyShop-DiegoRugerio-Backend#readme",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
 }
