@@ -5,22 +5,17 @@ class ProductManager {
         this.path = path
     }
 
-    async addProduct(title, description, price, thumbnail, code, stock) {
-
-        let fileExists = fs.existsSync(this.path)
-
-        if (arguments.length !== 6) {
-            return "WARNING: Incorrect parameters - title, description, price, thumbnail, code, stock."
-        }
-
+    async addProduct(title,description, code, price, status, stock, category, thumbnails) {
+        console.log("Entra add")
         try {
+            let fileExists = fs.existsSync(this.path)
 
             if (fileExists) {
                 await this.#readProductsFromFile()
             }
 
             if (this.#codeExists(code)) {
-                return "WARNING: Code already exists."
+                throw "WARNING: Code already exists."
             }
 
             let tempId = 1
@@ -31,14 +26,15 @@ class ProductManager {
             }
 
             this.products.push({
+                id:tempId,
                 title: title,
                 description: description,
-                thumbnail: thumbnail,
+                code:code,
                 price: price,
-                thumbnail: thumbnail,
-                code: code,
+                status: status,
                 stock: stock,
-                id: tempId
+                category: category,
+                thumbnails: thumbnails,
             })
 
             await this.#writeProductsToFile()
@@ -72,7 +68,7 @@ class ProductManager {
         try {
             await this.#readProductsFromFile()
             let product = this.products.find(product => product.id === id)
-            return product ?? "WARNING: Product not found"
+            return product ?? `WARNING: Product with ID ${id} not found`
         } catch (error) {
             throw `ERROR: Couldn't load product - ${error}`
         }
