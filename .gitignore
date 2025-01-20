@@ -1,2 +1,3 @@
 node_modules/
-products.json
+src/products.json
+src/carts.json
