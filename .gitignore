@@ -1,4 +1,2 @@
 node_modules/
-src/products.json
-src/carts.json
-src/JSON/*
+src/JSON/*.json

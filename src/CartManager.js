@@ -1,3 +1,5 @@
+// Cart Manager class
+// Manages persistence of carts using file (JSON)
 class CartManager {
 
     constructor(path) {
@@ -58,7 +60,12 @@ class CartManager {
         try {
             await this.#readCartsFromFile()
             let cart = this.carts.find(cart => cart.id === id)
-            return cart ?? "WARNING: Cart not found"
+            if(cart !== undefined){
+                return cart.products
+            }  
+            else{
+                return "WARNING: Cart not found"
+            } 
         } catch (error) {
             throw `ERROR: Couldn't load cart - ${error}`
         }
@@ -120,28 +127,4 @@ class CartManager {
 }
 
 import fs from 'fs'
-
-// ProductManager instance with file system
-let filePath = './src/'
-let fileName = 'carts.json'
-const cartManager = new CartManager(filePath+fileName)
-
-const logAsync = (promise) => {
-    promise
-        .then(result => console.log(result))
-        .catch(e => console.log(e))
-}
-
-// Add
-// logAsync(cartManager.createCart())
-
-// Get by ID
-// logAsync(cartManager.getCartById(2))
-
-// Delete
-// logAsync(cartManager.deleteCart(2))
-
-// AddProductToCart
-// logAsync(cartManager.addProductToCart(10,20,20))
-
 export default CartManager
