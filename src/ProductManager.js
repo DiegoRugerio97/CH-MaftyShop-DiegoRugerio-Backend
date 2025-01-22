@@ -1,3 +1,5 @@
+// Cart Manager class
+// Manages persistence of carts using file (JSON)
 class ProductManager {
 
     constructor(path) {
@@ -130,31 +132,4 @@ class ProductManager {
 }
 
 import fs from 'fs'
-
-// ProductManager instance with file system
-let filePath = './'
-let fileName = 'products.json'
-const productManager = new ProductManager(filePath+fileName)
-
-const logAsync = (promise) => {
-    promise
-        .then(result => console.log(result))
-        .catch(e => console.log(e))
-}
-
-// Add
-// logAsync(productManager.addProduct("ProductoPrueba", "Prueba", 200, "Imagen.png", "CODE005", 10))
-
-// Get
-// logAsync(productManager.getProducts())
-
-// Get by ID
-// logAsync(productManager.getProductById(9))
-
-// Delete
-// logAsync(productManager.deleteProduct(11))
-
-// Update
-// logAsync(productManager.updateProduct(10, {"title":"ProductoPruebaUpdated"}))
-
 export default ProductManager

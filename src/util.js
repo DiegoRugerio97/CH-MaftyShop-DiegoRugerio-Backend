@@ -1,3 +1,5 @@
+// Validation functions
+
 export const productBodyValidationPost = (body) => {
 
     const { title, description, code, price, status, stock, category } = body

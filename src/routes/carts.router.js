@@ -1,17 +1,22 @@
+// Carts Router
+// Imports
 import { Router } from "express"
 import CartManager from '../CartManager.js'
 import ProductManager from '../ProductManager.js'
-
+// Cart Manager
 let filePath = './src/JSON/'
 let fileName = 'carts.json'
 const cm = new CartManager(filePath + fileName)
 
+// Product Manager for validation purposes
 let fileNameProducts = 'products.json'
 const pm = new ProductManager(filePath + fileNameProducts)
 
-
+// Router
 const router = Router()
 
+
+// GET - With cart ID - Return cart content
 router.get('/:cId', async (req, res) => {
     try {
         let cartId = parseInt(req.params.cId)
@@ -26,6 +31,7 @@ router.get('/:cId', async (req, res) => {
     }
 })
 
+// POST - Creates a new cart
 router.post('/', async (req, res) => {
     try {
         const response = await cm.createCart()
@@ -35,6 +41,7 @@ router.post('/', async (req, res) => {
     }
 })
 
+// POST - With cart ID and product ID - Adds amount in body of Product in Cart matching the ID
 router.post('/:cId/products/:pId', async (req, res) => {
     try {
         let cartId = parseInt(req.params.cId)
@@ -62,6 +69,7 @@ router.post('/:cId/products/:pId', async (req, res) => {
     }
 })
 
+// DELETE - Deletes a cart
 router.delete('/:cId', async (req, res) => {
     try {
         let cartId = parseInt(req.params.cId)
