@@ -7,8 +7,7 @@ class ProductManager {
         this.path = path
     }
 
-    async addProduct(title,description, code, price, status, stock, category, thumbnails) {
-        console.log("Entra add")
+    async addProduct(title, description, code, price, status, stock, category, thumbnails) {
         try {
             let fileExists = fs.existsSync(this.path)
 
@@ -27,20 +26,26 @@ class ProductManager {
                 tempId = previousID + 1
             }
 
-            this.products.push({
-                id:tempId,
+            const productToAdd = {
+                id: tempId,
                 title: title,
                 description: description,
-                code:code,
+                code: code,
                 price: price,
                 status: status,
                 stock: stock,
                 category: category,
                 thumbnails: thumbnails,
-            })
+            }
+
+            this.products.push(productToAdd)
 
             await this.#writeProductsToFile()
-            return `INFO: Product with ID ${tempId} and Code ${code} saved succesfully.`
+            return {
+                message: `INFO: Product with ID ${tempId} and Code ${code} saved succesfully.`,
+                product: productToAdd
+            }
+
 
         } catch (error) {
             throw `ERROR: Couldn't write products - ${error}`
