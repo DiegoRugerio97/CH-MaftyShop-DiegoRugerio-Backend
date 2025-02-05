@@ -11,7 +11,7 @@ const pm = new ProductManager(filePath+fileName)
 // Router
 const router = Router()
 
-router.get('/', async (req, res) => {
+router.get('/products', async (req, res) => {
     try {
         const products = await pm.getProducts()
         res.status(200).render('home', { products })
