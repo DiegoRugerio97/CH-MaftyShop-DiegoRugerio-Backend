@@ -49,7 +49,13 @@ router.post('/', async (req, res)=>{
         let productBody = req.body
         const {title, description, code, price, status, stock, category, thumbnails} = productBodyValidationPost(productBody)
         const response = await pm.addProduct(title,description, code, price, status, stock, category, thumbnails)
-        res.status(200).send({status:"SUCCESS", response: response})
+        
+         // Socket emit
+        const app = req.app
+        const socketServer = app.get('io')
+        socketServer.emit("product_update_add", { id: response.product.id, title: title, description: description, code: code, price: price, stock: stock, thumbnails: thumbnails })
+
+        res.status(200).send({status:"SUCCESS", response: response.message})
     } catch (error) {
         res.status(400).send({status:"ERROR", error})
     }
@@ -77,6 +83,12 @@ router.delete('/:pId', async (req, res)=>{
             return
         }
         const response = await pm.deleteProduct(productId)
+
+        // Socket emit
+        const app = req.app
+        const socketServer = app.get('io')
+        socketServer.emit("product_update_remove",productId)
+
         res.status(200).send({status:"SUCCESS", response: response})
     } catch (error) {
         res.status(500).send({status:"ERROR", error})

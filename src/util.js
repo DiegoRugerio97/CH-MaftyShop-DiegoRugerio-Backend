@@ -14,7 +14,7 @@ export const productBodyValidationPost = (body) => {
         throw "Types not compatible: title (string), description (string), code (string), price (number), status (boolean), stock (number), category (string)"
     }
 
-    const thumbnails = body.thumbnails ?? ["placeholder.jpg"]
+    const thumbnails = body.thumbnails ?? ["/img/placeholder.jpg"]
     return { title, description, code, price, status, stock, category, thumbnails }
 }
 
@@ -45,3 +45,11 @@ export const productBodyValidationPut = (body) => {
 
     return body
 }
+
+// Path utilities
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url)
+export const __dirname = dirname(__filename)
+
