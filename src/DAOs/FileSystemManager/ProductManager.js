@@ -1,4 +1,4 @@
-// Cart Manager class
+// Product Manager class
 // Manages persistence of carts using file (JSON)
 class ProductManager {
 
