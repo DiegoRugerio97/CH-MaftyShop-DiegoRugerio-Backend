@@ -1,5 +1,7 @@
 // Main app for server
 // Imports
+// ENV
+import config from './config/config.js'
 import { __dirname } from './util.js'
 // Express
 import express from 'express'
@@ -11,6 +13,8 @@ import viewsRouter from './routes/views.router.js'
 import handlebars from 'express-handlebars'
 // Sockets
 import { Server } from 'socket.io'
+// Mongoose
+import mongoose from 'mongoose'
 // Express instance
 const app = express()
 
@@ -28,11 +32,14 @@ app.use('/api/carts/', cartsRouter)
 app.use('/', viewsRouter)
 // Public
 app.use(express.static(__dirname+'/public'))
-
+// Mongo Atlas connection
+const collection = "ecommerce"
+mongoose.connect(config.mongoURL,{dbName:collection})
 // Port
-const PORT = 8080
+const PORT = config.port
 // Starting server
 const httpServer = app.listen(PORT,()=>console.log(`Active server in port ${PORT}`))
+
 
 // Socket
 const socketServer = new Server(httpServer)
