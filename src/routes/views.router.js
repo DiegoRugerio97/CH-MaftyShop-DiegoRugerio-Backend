@@ -4,7 +4,8 @@ import { Router } from "express"
 import ProductManager from '../DAOs/MongoManager/ProductManager.js'
 import CartManager from '../DAOs/MongoManager/CartManager.js'
 import { sanitizeQueryParams } from "../util.js"
-
+// Passport
+import passport from 'passport'
 // Product Manager 
 const pm = new ProductManager()
 const cm = new CartManager()
@@ -17,7 +18,7 @@ const router = Router()
 // queryVal category - Manga, Gunpla, Figures
 // queryVal stock - 0(In stock)
 // Combining both will clear query and return default search
-router.get('/products', async (req, res) => {
+router.get('/products', passport.authenticate('jwt', {failureRedirect:'/login', session:false}), async (req, res) => {
     try {
         const protocol = req.protocol
         const host = req.hostname
@@ -29,7 +30,7 @@ router.get('/products', async (req, res) => {
         const { limit, pageNumber, sort, queryField, queryVal } = queryParameters
         const paginateResponse = await pm.getProducts(limit, pageNumber, sort, queryField, queryVal, URL)
         const {docs, hasPrevPage, hasNextPage, prevLink, nextLink} = paginateResponse
-        res.status(200).render('products', {docs: docs, prevLink: prevLink, nextLink: nextLink, hasNextPage: hasNextPage, hasPrevPage: hasPrevPage })
+        res.status(200).render('products', {user: req.user.payload, docs: docs, prevLink: prevLink, nextLink: nextLink, hasNextPage: hasNextPage, hasPrevPage: hasPrevPage })
     }
     catch (error) {
         res.status(500).send({ 'ERROR': error })
@@ -79,6 +80,14 @@ router.get('/products/:pId', async (req, res) => {
     }
 })
 
+router.get('/register', (req, res) => {
+    if(req.cookies["userToken"]) return res.redirect('/products')
+    return res.render('register')
+})
 
+router.get('/login',(req, res) => {
+    if(req.cookies["userToken"]) return res.redirect('/products')
+    return res.render('login')
+})
 
 export default router;

@@ -127,3 +127,28 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url)
 export const __dirname = dirname(__filename)
 
+// JWT Uitlities
+import jwt from "jsonwebtoken"
+import config from './config/config.js'
+const SECRET = config.SECRET
+
+export const generateToken = (payload) => {
+    const token = jwt.sign({ payload }, SECRET, {expiresIn:'24h'})
+    return token
+}
+
+export const verifySign = (token) => {
+    try {
+        const credentials = jwt.verify(token, SECRET);
+        return credentials
+    } catch (error) {
+        return null
+    }
+}
+
+// Password hashing
+import bcrypt from 'bcrypt'
+
+export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10))
+
+export const isPasswordValid = (user, password) => bcrypt.compareSync(password, user.password)
