@@ -1,6 +1,6 @@
 // Cart Manager with Mongo DB persistence
-import { cartModel } from '../Models/cart.model.js'
-import { productModel } from '../Models/product.model.js'
+import cartModel from '../Models/cart.model.js'
+import productModel from '../Models/product.model.js'
 import mongoose from 'mongoose'
 
 class CartManager {

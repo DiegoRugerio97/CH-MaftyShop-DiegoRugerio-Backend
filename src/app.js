@@ -9,12 +9,17 @@ import express from 'express'
 import productsRouter from './routes/products.router.js'
 import cartsRouter from './routes/carts.router.js'
 import viewsRouter from './routes/views.router.js'
+import sessionRouter from './routes/session.router.js'
 // Templates
 import handlebars from 'express-handlebars'
 // Sockets
 import { Server } from 'socket.io'
 // Mongoose
 import mongoose from 'mongoose'
+// Passport
+import initializedPassport from './config/passport/passport.config.js'
+import cookieParser from 'cookie-parser'
+import passport from 'passport'
 // Express instance
 const app = express()
 
@@ -26,17 +31,23 @@ app.set('view engine','handlebars')
 // Requests
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
+// Passport and cookies
+app.use(cookieParser())
+initializedPassport()
+app.use(passport.initialize())
 // Routes
 app.use('/api/products/', productsRouter)
 app.use('/api/carts/', cartsRouter)
+app.use('/api/sessions/',sessionRouter)
 app.use('/', viewsRouter)
+
 // Public
 app.use(express.static(__dirname+'/public'))
 // Mongo Atlas connection
 const collection = "ecommerce"
-mongoose.connect(config.mongoURL,{dbName:collection})
+mongoose.connect(config.MONGO_URL,{dbName:collection})
 // Port
-const PORT = config.port
+const PORT = config.PORT
 // Starting server
 const httpServer = app.listen(PORT,()=>console.log(`Active server in port ${PORT}`))
 

@@ -1,5 +1,5 @@
 // Product Manager using Mongo persistence
-import { productModel } from '../Models/product.model.js'
+import productModel from '../Models/product.model.js'
 import { linkBuilder } from '../../util.js'
 import mongoose from 'mongoose'
 

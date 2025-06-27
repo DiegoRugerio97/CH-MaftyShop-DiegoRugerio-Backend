@@ -1,59 +1,81 @@
 <div class="container">
-  <div class="row mx-auto">
-    <form action="/products" method="get">
-      <select class="form-select mx-auto" name="sort">
-        <option value="null" selected>Order by Price</option>
-        <option value="desc">Most Expensive First</option>
-        <option value="asc">Least Expensive First</option>
-      </select>
-      <select class="form-select mx-auto" name="queryField">
-        <option value="">Filter Field</option>
-        <option value="category">Category</option>
-        <option value="stock">Stock Status</option>
-      </select>
-      <select class="form-select mx-auto" name="queryVal">
-        <option value="" selected>Filter Value</option>
-        <option value="Figures">Figures</option>
-        <option value="Manga">Manga</option>
-        <option value="Gunpla">Gunpla</option>
-        <option value="0">In Stock</option>
-      </select>
-      <button type="submit" class="btn btn-dark mx-auto">Filter</button>
+  <div class="mt-4 p-5 bg-dark text-white rounded w-100">
+  <h1> ¡Bienvenido {{user.first_name}}!</h1>
+  <p>Email - {{user.email}}</p>
+  <a href="/api/sessions/logout" role="button">
+    <button class="btn btn-light align-self-start" >Cerrar sesión</button>
+  </a>
+  </div>
+  <div class="w-75 mx-auto my-5">
+    <form action="/products" method="get" class="row g-4">
+      <div class="col-sm ">
+        <select class="form-select mx-auto" name="sort">
+          <option value="null" selected>Order by Price</option>
+          <option value="desc">Most Expensive First</option>
+          <option value="asc">Least Expensive First</option>
+        </select>
+      </div>
+      <div class="col-sm">
+        <select class="form-select mx-auto" name="queryField">
+          <option value="">Filter Field</option>
+          <option value="category">Category</option>
+          <option value="stock">Stock Status</option>
+        </select>
+      </div>
+      <div class="col-sm">
+        <select class="form-select mx-auto" name="queryVal">
+          <option value="" selected>Filter Value</option>
+          <option value="Figures">Figures</option>
+          <option value="Manga">Manga</option>
+          <option value="Gunpla">Gunpla</option>
+          <option value="0">In Stock</option>
+        </select>
+      </div>
+      <div class="col-sm">
+        <button type="submit" class="btn btn-dark mx-auto">Filter</button>
+      </div>
     </form>
+  </div>
+  <div class="row mx-auto">
     {{#each docs}}
       <div id={{_id}} class="col-md-4 mb-3 d-flex align-items-stretch mx-auto">
         <div class="card" style="width: 18rem;">
-          <img src={{thumbnails.[0]}} class="card-img-top" alt="Product image" />
+          <img src={{thumbnails.[0]}} class="card-img-top" alt="Product image" style="height:400px; width:100%; object-fit:cover;"/>
           <div class="card-body d-flex flex-column">
             <h5 class="card-title">{{title}}</h5>
             <p class="card-text mb-4">{{description}}</p>
             <p class="card-text mb-4">${{price}} MXN</p>
-            <button
+            <div class="row mx-auto">
+              <button
               type="submit"
-              class="btn btn-dark mt-auto align-self-start"
+              class="btn btn-dark align-self-end col-auto"
             >Add To Cart</button>
-            <form action="/products/{{_id}}" method="get">
-              <button type="submit" class="btn btn-dark mx-auto">Details</button>
+            <form action="/products/{{_id}}" method="get" class="col-auto my-0 align-self-end">
+              <button
+                type="submit"
+                class="btn btn-dark"
+              >Details</button>
             </form>
+            </div>
           </div>
         </div>
       </div>
     {{/each}}
   </div>
-  <nav aria-label="Page navigation example">
+</div>
+<nav class="navbar navbar-expand-lg text-bg-dark">
     <ul class="pagination mx-auto">
       {{#if hasPrevPage}}
         <li class="page-item"><a
-            class="page-link"
+            class="btn btn-dark"
             href={{prevLink}}
-          >Previous</a></li>
+          >Previous Products</a></li>
       {{/if}}
       {{#if hasNextPage}}
         <li class="page-item"><a
-            class="page-link"
+            class="btn btn-dark"
             href={{nextLink}}
-          >Next</a></li>
+          >Next Products</a></li>
       {{/if}}
     </ul>
-  </nav>
-</div>
+</nav>
