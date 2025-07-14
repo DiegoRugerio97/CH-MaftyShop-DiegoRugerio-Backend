@@ -6,10 +6,9 @@ import { __dirname } from './util.js'
 // Express
 import express from 'express'
 // Routers
-import productsRouter from './routes/products.router.js'
-import cartsRouter from './routes/carts.router.js'
+import mainRouter from './routes/index.router.js'
 import viewsRouter from './routes/views.router.js'
-import sessionRouter from './routes/session.router.js'
+
 // Templates
 import handlebars from 'express-handlebars'
 // Sockets
@@ -36,11 +35,8 @@ app.use(cookieParser())
 initializedPassport()
 app.use(passport.initialize())
 // Routes
-app.use('/api/products/', productsRouter)
-app.use('/api/carts/', cartsRouter)
-app.use('/api/sessions/',sessionRouter)
 app.use('/', viewsRouter)
-
+app.use('/api',mainRouter)
 // Public
 app.use(express.static(__dirname+'/public'))
 // Mongo Atlas connection
@@ -50,7 +46,6 @@ mongoose.connect(config.MONGO_URL,{dbName:collection})
 const PORT = config.PORT
 // Starting server
 const httpServer = app.listen(PORT,()=>console.log(`Active server in port ${PORT}`))
-
 
 // Socket
 const socketServer = new Server(httpServer)
