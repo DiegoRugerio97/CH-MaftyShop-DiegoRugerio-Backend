@@ -1,56 +1,27 @@
-// Router
+// Session Router
+// Imports
 import { Router } from 'express'
-// Passport
 import passport from 'passport'
-// Utils
-import { generateToken } from '../util.js';
-
+import SessionController from '../controller/session.controller.js';
+// Router
 const router = Router();
+// Session Controller
+const sessionController =  new SessionController()
 
 // Register
-router.post('/register', passport.authenticate('register', { failureRedirect: '/api/sessions/failRegister', session: false }), async (req, res) => {
-    res.status(200).send({ status: 'success', message: 'User registered succesfully.' })
-})
-
+router.post('/register', passport.authenticate('register', { failureRedirect: '/api/sessions/failRegister', session: false }), sessionController.register)
 // Login
-router.post('/login', passport.authenticate('login', {failureRedirect: '/api/sessions/failLogin', session: false }), async (req, res) => {
-
-    let {...user} = req.user
-    delete user.password
-    const token = generateToken(user)
-    res.cookie('userToken', token, { httpOnly: true }).redirect('/products')
-})
-
+router.post('/login', passport.authenticate('login', {failureRedirect: '/api/sessions/failLogin', session: false }), sessionController.login)
 // Github login
 router.get('/github', passport.authenticate('github', { scope: ['user:email'], session: false }), async (req, res) => { })
-
-router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login', session: false }), async (req, res) => {
-
-    let {...user} = req.user
-    delete user.password
-    const token = generateToken(user)
-    res.cookie('userToken', token, { httpOnly: true }).redirect('/products')
-})
-
+router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login', session: false }), sessionController.login)
 // User information with JWT 
-router.get('/current', passport.authenticate('jwt', {failureRedirect:'/api/sessions/failLogin', session: false }),
-    (req, res) => {
-        res.send(req.user)
-    }
-)
+router.get('/current', passport.authenticate('jwt', {failureRedirect:'/api/sessions/failLogin', session: false }),sessionController.current)
 // Logout
 // Clears cookie
-router.get('/logout', async (req, res) => {
-    res.clearCookie('userToken')
-    res.redirect("/login")
-})
+router.get('/logout', sessionController.logout)
 // Error routes
-router.get('/failLogin', async (req, res) => {
-    res.status(401).send({status:"ERROR",message:"Token incorrecto"})
-})
-
-router.get('/failRegister', async (req, res) => {
-    res.status(409).send({ status: 'ERROR', message: 'User already exists.' })
-})
+router.get('/failLogin', sessionController.failLogin)
+router.get('/failRegister', sessionController.failRegister)
 
 export default router

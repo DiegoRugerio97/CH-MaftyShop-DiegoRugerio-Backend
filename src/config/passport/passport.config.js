@@ -4,8 +4,11 @@ import passport from "passport"
 import { registerLocal, loginLocal } from "./local.strategy.js"
 import { registerGitHub } from "./github.strategy.js"
 import { jwt } from "./jwt.strategy.js"
-// Model
-import userModel from '../../DAOs/Models/user.model.js'
+// Service
+import UserService from "../../services/user.services.js"
+
+// User Service
+const userService = new UserService()
 
 // Initializing passport strategies
 const initializedPassport = () => {
@@ -20,7 +23,7 @@ const initializedPassport = () => {
     })
 
     passport.deserializeUser(async (id, done) => {
-        const user = await userModel.findById(id)
+        const user = await userService.getUserById(id)
         delete user.password
         done(null, user)
     })

@@ -1,0 +1,34 @@
+// User DAO with Mongo DB persistence
+// Imports
+import userModel from "./Models/user.model.js"
+
+class UserDAO {
+    async getUserByEmail(email) {
+        try {
+            return await userModel.findOne({ email: email }).lean().exec()
+        } catch {
+            console.log({ error })
+            return null
+        }
+    }
+
+    async createUser(userObj) {
+        try {
+            return await userModel.create(userObj)
+        } catch {
+            console.log({ error })
+            return null
+        }
+    }
+
+    async getUserById(id) {
+        try {
+            return await userModel.findById(id)
+        } catch {
+            console.log({ error })
+            return null
+        }
+    }
+}
+
+export default UserDAO

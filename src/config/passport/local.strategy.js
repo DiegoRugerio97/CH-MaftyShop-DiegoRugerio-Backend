@@ -1,33 +1,38 @@
 // Passport
 import { Strategy as LocalStrategy } from "passport-local"
-// Models
-import userModel from '../../DAOs/Models/user.model.js'
-import cartModel from '../../DAOs/Models/cart.model.js'
+// Services
+import UserService from "../../services/user.services.js"
+import CartService from "../../services/carts.service.js"
 // Utils
 import { createHash, isPasswordValid } from '../../util.js'
+
+// User Service
+const userService = new UserService()
+// Cart Service
+const cartService = new CartService()
 
 // Registering
 const verifyRegister = async (req, username, password, done) => {
     const { first_name, last_name, email, age } = req.body
     try {
-        const userExists = await userModel.findOne({ email }).lean().exec()
+        const userExists = await userService.getUserByEmail(email)
 
         if (userExists)
             return done(null, false)
 
         const hashedPassword = createHash(password)
 
-        const response = await cartModel.create({})
+        const cart = await cartService.createCart()
 
-        let result = await userModel.create({
+        let user = await userService.createUser({
             first_name,
             last_name,
             email,
             age,
             password: hashedPassword,
-            cart: response._id
+            cart: cart._id
         })
-        return done(null, result)
+        return done(null, user)
     }
     catch (error) {
         return done('Error creating user: ' + error)
@@ -37,7 +42,7 @@ const verifyRegister = async (req, username, password, done) => {
 // Logging in 
 const verifyLogin = async (username, password, done) => {
     try {
-        let user = await userModel.findOne({ email: username }).lean().exec()
+        let user = await userService.getUserByEmail(username)
         if (!user) return done(null, false)
 
         let validCredentials = isPasswordValid(user, password)
