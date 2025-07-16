@@ -19,5 +19,7 @@ router.get('/products/:pId', viewController.renderProductById)
 // Session views
 router.get('/register', viewController.renderRegister)
 router.get('/login', viewController.renderLogin)
+router.get('/forgetPassword', viewController.renderForgetPassword)
+router.get('/resetPassword', viewController.renderResetPassword)
 
 export default router;

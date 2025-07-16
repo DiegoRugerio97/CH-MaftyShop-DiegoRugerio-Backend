@@ -17,6 +17,10 @@ router.get('/github', passport.authenticate('github', { scope: ['user:email'], s
 router.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login', session: false }), sessionController.login)
 // User information with JWT 
 router.get('/current', passport.authenticate('jwt', {failureRedirect:'/api/sessions/failLogin', session: false }),sessionController.current)
+// Start password reset process
+router.post('/forgetPassword', sessionController.forgetPassword)
+// Resetting password
+router.post('/resetPassword', sessionController.resetPassword)
 // Logout
 // Clears cookie
 router.get('/logout', sessionController.logout)

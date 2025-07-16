@@ -1,11 +1,11 @@
 // Repository class for Users
 
 class UsersRepository {
-    constructor(DAO){
+    constructor(DAO) {
         this.usersDAO = DAO
     }
     async getUserByEmail(email) {
-        return await  this.usersDAO.getUserByEmail(email)
+        return await this.usersDAO.getUserByEmail(email)
     }
 
     async createUser(userObj) {
@@ -13,7 +13,11 @@ class UsersRepository {
     }
 
     async getUserById(id) {
-        return await  this.usersDAO.getUserById(id)
+        return await this.usersDAO.getUserById(id)
+    }
+
+    async updateUserPasswordById(id, hashedPassword) {
+        return await this.usersDAO.updateUserPasswordById(id, hashedPassword)
     }
 }
 

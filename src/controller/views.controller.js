@@ -3,7 +3,7 @@
 import { sanitizeQueryParams } from "../util.js"
 import UserDTO from "../DTOs/user.dto.js"
 // Products Service
-import {cartsService, productsService} from "../services/index.service.js"
+import { cartsService, productsService } from "../services/index.service.js"
 // Cart Service
 
 
@@ -78,6 +78,14 @@ class ViewController {
     renderLogin(req, res) {
         if (req.cookies["userToken"]) return res.redirect('/products')
         return res.render('login')
+    }
+
+    renderForgetPassword(req, res) {
+        return res.render('forgetPassword')
+    }
+
+    renderResetPassword(req, res) {
+        return res.render('resetPassword')
     }
 }
 

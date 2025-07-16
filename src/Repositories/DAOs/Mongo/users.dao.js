@@ -29,6 +29,15 @@ class UsersDAO {
             return null
         }
     }
+
+    async updateUserPasswordById(id, hashedPassword) {
+        try {
+            return await userModel.findByIdAndUpdate(id,{password:hashedPassword})
+        } catch {
+            console.log({ error })
+            return null
+        }
+    }
 }
 
 export default UsersDAO
