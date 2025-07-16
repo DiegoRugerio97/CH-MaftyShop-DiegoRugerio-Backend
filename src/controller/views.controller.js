@@ -1,13 +1,11 @@
 // Controller class for Views
 // Imports
-import ProductsService from "../services/products.service.js"
-import CartService from "../services/carts.service.js"
 import { sanitizeQueryParams } from "../util.js"
-
+import UserDTO from "../DTOs/user.dto.js"
 // Products Service
-const productsService = new ProductsService()
+import {cartsService, productsService} from "../services/index.service.js"
 // Cart Service
-const cartService = new CartService()
+
 
 class ViewController {
     async renderProducts(req, res) {
@@ -23,7 +21,9 @@ class ViewController {
 
             const paginateResponse = await productsService.getProducts(limit, pageNumber, sort, queryField, queryVal, URL)
             const { docs, hasPrevPage, hasNextPage, prevLink, nextLink } = paginateResponse
-            res.status(200).render('products', { user: req.user.payload, docs: docs, prevLink: prevLink, nextLink: nextLink, hasNextPage: hasNextPage, hasPrevPage: hasPrevPage })
+            const user = new UserDTO(req.user.payload)
+
+            res.status(200).render('products', { user, docs, prevLink, nextLink, hasNextPage, hasPrevPage })
         }
         catch (error) {
             res.status(500).send({ 'ERROR': error })
@@ -51,7 +51,7 @@ class ViewController {
     async renderCartById(req, res) {
         try {
             const cartId = req.params.cId
-            const response = await cartService.getCartById(cartId)
+            const response = await cartsService.getCartById(cartId)
             res.status(200).render('cart', { cId: cartId, cartProducts: response })
         }
         catch (error) {

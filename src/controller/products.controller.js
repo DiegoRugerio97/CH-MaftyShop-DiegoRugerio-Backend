@@ -1,9 +1,8 @@
 // Controller class for Products
 // Imports
 import { productBodyValidationPost, productBodyValidationPut, sanitizeQueryParams } from '../util.js'
-import ProductsService from '../services/products.service.js'
 // Products Service
-const productsService = new ProductsService()
+import {productsService} from "../services/index.service.js"
 
 class ProductsController {
     // GET - Accepts limit, sort, queryField and queryVal in query params - Returns all products

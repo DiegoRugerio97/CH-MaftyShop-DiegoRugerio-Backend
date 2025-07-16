@@ -1,8 +1,8 @@
 // Controller class for Carts
 // Imports
-import CartsService from "../services/carts.service.js"
 // Carts Service
-const cartsService = new CartsService()
+import {cartsService} from "../services/index.service.js"
+
 class CartsController {
 
     // GET - With cart ID - Return cart content

@@ -1,8 +1,8 @@
-// User DAO with Mongo DB persistence
+// Repository class for Users
 // Imports
 import userModel from "./Models/user.model.js"
 
-class UserDAO {
+class UsersDAO {
     async getUserByEmail(email) {
         try {
             return await userModel.findOne({ email: email }).lean().exec()
@@ -31,4 +31,4 @@ class UserDAO {
     }
 }
 
-export default UserDAO
+export default UsersDAO

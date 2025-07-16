@@ -1,17 +1,15 @@
 // Service class for Products
+// Import repository instances
+import {productsRepository} from "../Repositories/index.repository.js"
 // Imports
-import ProductsDAO from "../DAOs/Mongo/products.dao.js"
 import { linkBuilder } from "../util.js"
-
-// Products DAO
-const productsDAO = new ProductsDAO()
 
 class ProductsService {
     // Builds query and options for the paginate method of the productModel
     async getProducts(limit = 10, pageNumber = 1, sort = null, queryField = null, queryVal = null, URL = "") {
 
         // Pagination
-        const { docs, totalPages, prevPage, nextPage, page, hasPrevPage, hasNextPage } = await productsDAO.getProducts(limit, pageNumber, sort, queryField, queryVal)
+        const { docs, totalPages, prevPage, nextPage, page, hasPrevPage, hasNextPage } = await productsRepository.getProducts(limit, pageNumber, sort, queryField, queryVal)
         if (pageNumber > totalPages) {
             throw `Page ${pageNumber} doesn't exist`
         }
@@ -25,11 +23,11 @@ class ProductsService {
 
     // Find by ID
     async getProductById(productId) {
-        if (!productsDAO.isIdValid(productId)) {
+        if (!productsRepository.isIdValid(productId)) {
             throw `Product ID ${productId} is not a valid format`
         }
 
-        const product = await productsDAO.getProductById(productId)
+        const product = await productsRepository.getProductById(productId)
 
         if (!product) {
             throw `Product ${productId} doesn't exist - Check logs`
@@ -40,15 +38,15 @@ class ProductsService {
     // Creates document in Mongo
     async addProduct(title, description, code, price, status, stock, category, thumbnails) {
         let newDoc = { title: title, description: description, code: code, price: price, status: status, stock: stock, category: category, thumbnails: thumbnails }
-        return await productsDAO.addProduct(newDoc)
+        return await productsRepository.addProduct(newDoc)
     }
 
     // Updates document by ID
     async updateProduct(productId, doc) {
-        if (!productsDAO.isIdValid(productId)) {
+        if (!productsRepository.isIdValid(productId)) {
             throw `Product ID ${productId} is not a valid format`
         }
-        const document = await productsDAO.updateProduct(productId, doc)
+        const document = await productsRepository.updateProduct(productId, doc)
 
         if (!document) {
             throw `Product ${productId} doesn't exist - Check logs`
@@ -58,10 +56,10 @@ class ProductsService {
 
     // Deletes document by ID
     async deleteProduct(productId) {
-        if (!productsDAO.isIdValid(productId)) {
+        if (!productsRepository.isIdValid(productId)) {
             throw `Product ID ${productId} is not a valid format`
         }
-        const document = await productsDAO.deleteProduct(productId)
+        const document = await productsRepository.deleteProduct(productId)
 
         if (!document) {
             throw `Product ${productId} doesn't exist - Check logs`

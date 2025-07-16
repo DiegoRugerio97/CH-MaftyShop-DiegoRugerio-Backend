@@ -1,30 +1,26 @@
 // Passport
 import { Strategy as LocalStrategy } from "passport-local"
-// Services
-import UserService from "../../services/user.services.js"
-import CartService from "../../services/carts.service.js"
 // Utils
 import { createHash, isPasswordValid } from '../../util.js'
-
 // User Service
-const userService = new UserService()
 // Cart Service
-const cartService = new CartService()
+import {cartsService, usersService} from "../../services/index.service.js"
+
 
 // Registering
 const verifyRegister = async (req, username, password, done) => {
     const { first_name, last_name, email, age } = req.body
     try {
-        const userExists = await userService.getUserByEmail(email)
+        const userExists = await usersService.getUserByEmail(email)
 
         if (userExists)
             return done(null, false)
 
         const hashedPassword = createHash(password)
 
-        const cart = await cartService.createCart()
+        const cart = await cartsService.createCart()
 
-        let user = await userService.createUser({
+        let user = await usersService.createUser({
             first_name,
             last_name,
             email,
@@ -42,7 +38,7 @@ const verifyRegister = async (req, username, password, done) => {
 // Logging in 
 const verifyLogin = async (username, password, done) => {
     try {
-        let user = await userService.getUserByEmail(username)
+        let user = await usersService.getUserByEmail(username)
         if (!user) return done(null, false)
 
         let validCredentials = isPasswordValid(user, password)

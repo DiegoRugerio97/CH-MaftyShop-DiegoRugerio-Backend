@@ -33,7 +33,7 @@ class ProductsDAO {
             return await productModel.create(productObj)
         } catch (error) {
             console.log({ error })
-            return null
+            throw error
         }
     }
 

@@ -1,6 +1,7 @@
 // Controller class for sessions
 // Imports
 import { generateToken } from "../util.js"
+import UserDTO from "../DTOs/user.dto.js"
 class SessionController {
 
     async register(req, res) {
@@ -8,14 +9,14 @@ class SessionController {
     }
 
     async login(req, res) {
-        let { ...user } = req.user
-        delete user.password
+        const user = new UserDTO(req.user)
         const token = generateToken(user)
         res.cookie('userToken', token, { httpOnly: true }).redirect('/products')
     }
 
     async current(req, res) {
-        res.send(req.user)
+        const user = new UserDTO(req.user.payload)
+        res.send(user)
     }
 
     async logout(req, res) {

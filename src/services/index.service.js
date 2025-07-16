@@ -1,0 +1,9 @@
+// Intialization of instances for service classes
+// Imports
+import CartsService from "./carts.service.js"
+import ProductsService from "./products.service.js"
+import UsersService from "./users.services.js"
+
+export const cartsService = new CartsService()
+export const productsService = new ProductsService()
+export const usersService =  new UsersService()

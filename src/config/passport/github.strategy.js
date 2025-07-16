@@ -1,21 +1,17 @@
 // Passport
 import GitHubStrategy from 'passport-github2'
 // Services
-import CartsService from '../../services/carts.service.js'
-import UserService from '../../services/user.services.js'
+import {cartsService, usersService} from "../../services/index.service.js"
 import { createHash } from '../../util.js'
 // ENV
 import config from '../config.js'
 
-const userService = new UserService()
-const cartService =  new CartsService()
-
 // Github strategy
 const verifyRegisterGitHub = async (accessToken, refreshToken, profile, done) => {
     try {
-        const user = await userService.getUserByEmail(profile.profileUrl)
+        const user = await usersService.getUserByEmail(profile.profileUrl)
         if (!user) {
-            const response = await cartService.createCart()
+            const response = await cartsService.createCart()
             let newUser = {
                 first_name: profile.username,
                 last_name: 'default',
@@ -24,7 +20,7 @@ const verifyRegisterGitHub = async (accessToken, refreshToken, profile, done) =>
                 password: createHash(config.SECRET),
                 cart: response._id
             };
-            let result = await userService.createUser(newUser)
+            let result = await usersService.createUser(newUser)
             done(null, result);
         }
         else {

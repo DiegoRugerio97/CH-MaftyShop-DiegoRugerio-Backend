@@ -39,9 +39,6 @@ app.use('/', viewsRouter)
 app.use('/api',mainRouter)
 // Public
 app.use(express.static(__dirname+'/public'))
-// Mongo Atlas connection
-const collection = "ecommerce"
-mongoose.connect(config.MONGO_URL,{dbName:collection})
 // Port
 const PORT = config.PORT
 // Starting server
