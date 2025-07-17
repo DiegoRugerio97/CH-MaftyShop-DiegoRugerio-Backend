@@ -16,7 +16,7 @@ class SessionController {
     }
 
     async current(req, res) {
-        const user = new UserDTO(req.user.payload)
+        const user = req.user.payload
         res.send(user)
     }
 
@@ -54,7 +54,7 @@ class SessionController {
         }
     }
 
-    async failLogin(req, res) {
+    async failAuthenticated(req, res) {
         res.status(401).send({ status: "ERROR", message: "Invalid credentials" })
     }
 

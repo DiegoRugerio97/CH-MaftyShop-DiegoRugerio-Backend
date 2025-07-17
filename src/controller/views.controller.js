@@ -1,7 +1,6 @@
 // Controller class for Views
 // Imports
 import { sanitizeQueryParams } from "../util.js"
-import UserDTO from "../DTOs/user.dto.js"
 // Products Service
 import { cartsService, productsService } from "../services/index.service.js"
 // Cart Service
@@ -21,7 +20,7 @@ class ViewController {
 
             const paginateResponse = await productsService.getProducts(limit, pageNumber, sort, queryField, queryVal, URL)
             const { docs, hasPrevPage, hasNextPage, prevLink, nextLink } = paginateResponse
-            const user = new UserDTO(req.user.payload)
+            const user = req.user.payload
 
             res.status(200).render('products', { user, docs, prevLink, nextLink, hasNextPage, hasPrevPage })
         }
