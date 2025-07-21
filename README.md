@@ -71,7 +71,7 @@ El servidor cuenta las siguientes rutas y endpoints, con sus respectivos middlew
 * DELETE <span style="color:#034efc">/api/products/pId</span> - Unicamente ADMIN : Eliminación de un producto del catálogo por el ID del producto.  
 
 ## Carts
-* GET <span style="color:#034efc">/api/carts/cId</span> : Información de un solo carrito, consultando la persistencia por el ID del carrito.
+* GET <span style="color:#034efc">/api/carts/cId</span> - Unicamente si el carrito es el mismo asignado al usuario: Información de un solo carrito, consultando la persistencia por el ID del carrito.
 * POST <span style="color:#034efc">/api/carts</span> - Unicamente ADMIN : Creación de un nuevo carrito.
 * POST <span style="color:#034efc">/api/carts/cId/products/pId</span> - Unicamente si el carrito es el mismo asignado al usuario : Se agrega el producto especificado por el ID del producto al carrito especificado por el ID del carrito.
 * PUT <span style="color:#034efc">/api/carts/cId/products/pId</span> : Actualización de la cantidad de un producto existente dentro del carrito especificado por el ID del carrito.
