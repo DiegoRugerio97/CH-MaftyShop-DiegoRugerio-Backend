@@ -8,6 +8,7 @@ import mongoose from "mongoose"
 export let CartsDAO
 export let ProductsDAO
 export let UsersDAO
+export let TicketsDAO
 
 // Reads desired persistence from ENV variables
 const PERSISTENCE = config.PERSISTENCE
@@ -22,5 +23,7 @@ switch(PERSISTENCE){
         ProductsDAO = ProductsMongo
         const {default:UsersMongo} =  await import("./Mongo/users.dao.js")
         UsersDAO = UsersMongo
+        const {default:TicketsMongo} =  await import("./Mongo/tickets.dao.js")
+        TicketsDAO = TicketsMongo
         break
 }

@@ -10,7 +10,8 @@ class CartsController {
         try {
             const cartId = req.params.cId
             const response = await cartsService.getCartById(cartId)
-            res.status(200).send({ status: "SUCCESS", response })
+            const {cart, cartTotal} = response
+            res.status(200).send({ status: "SUCCESS", cart, cartTotal})
         } catch (error) {
             res.status(400).send({ status: "ERROR", error })
         }
@@ -22,7 +23,7 @@ class CartsController {
             const response = await cartsService.createCart()
             res.status(200).send({ status: "SUCCESS", response })
         } catch (error) {
-            res.status(400).send({ status: "ERROR", error })
+            res.status(500).send({ status: "ERROR", error })
         }
     }
 

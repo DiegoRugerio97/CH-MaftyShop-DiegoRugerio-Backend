@@ -1,7 +1,8 @@
 // Repository class for Users
 // Imports
 import userModel from "./Models/user.model.js"
-
+// Imports
+import mongoose from "mongoose"
 class UsersDAO {
     async getUserByEmail(email) {
         try {
@@ -32,11 +33,15 @@ class UsersDAO {
 
     async updateUserPasswordById(id, hashedPassword) {
         try {
-            return await userModel.findByIdAndUpdate(id,{password:hashedPassword})
+            return await userModel.findByIdAndUpdate(id, { password: hashedPassword })
         } catch {
             console.log({ error })
             return null
         }
+    }
+
+    async isIdValid(id) {
+        return mongoose.Types.ObjectId.isValid(id)
     }
 }
 

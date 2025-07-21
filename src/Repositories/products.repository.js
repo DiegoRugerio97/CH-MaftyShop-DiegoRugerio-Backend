@@ -25,7 +25,7 @@ class ProductsRepository {
         return await this.productsDAO.updateProduct(productId, obj)
     }
 
-    // Deletes document by ID
+    // Deletes product by ID
     async deleteProduct(productId) {
         return await this.productsDAO.deleteProduct(productId)
     }

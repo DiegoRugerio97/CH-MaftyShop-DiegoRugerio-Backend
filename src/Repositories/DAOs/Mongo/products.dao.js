@@ -8,7 +8,7 @@ class ProductsDAO {
     // Builds query and options for the paginate method of the productModel
     async getProducts(limit, pageNumber, sort, queryField, queryVal) {
         try {
-            const {query, options} = this.buildPaginationParameters(limit, pageNumber, sort, queryField, queryVal)
+            const { query, options } = this.buildPaginationParameters(limit, pageNumber, sort, queryField, queryVal)
             return await productModel.paginate(query, options)
         } catch (error) {
             console.log({ error })

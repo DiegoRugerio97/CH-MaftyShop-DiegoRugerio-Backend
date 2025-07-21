@@ -3,6 +3,8 @@
 import {productsRepository} from "../Repositories/index.repository.js"
 // Imports
 import { linkBuilder } from "../util.js"
+// DTO
+import ProductDTO from "../DTOs/product.dto.js"
 
 class ProductsService {
     // Builds query and options for the paginate method of the productModel
@@ -17,8 +19,11 @@ class ProductsService {
         // Builds the links
         const queryParameters = { limit, sort, queryField, queryVal }
         const { prevLink, nextLink } = linkBuilder(URL, queryParameters, hasNextPage, hasPrevPage, page)
-
-        return { docs, totalPages, prevPage, nextPage, page, hasPrevPage, hasNextPage, prevLink, nextLink };
+        const products = []
+        for (const product of docs) {
+            products.push(new ProductDTO(product))
+        }
+        return { products, totalPages, prevPage, nextPage, page, hasPrevPage, hasNextPage, prevLink, nextLink }
     }
 
     // Find by ID
@@ -27,11 +32,12 @@ class ProductsService {
             throw `Product ID ${productId} is not a valid format`
         }
 
-        const product = await productsRepository.getProductById(productId)
+        const response = await productsRepository.getProductById(productId)
 
-        if (!product) {
+        if (!response) {
             throw `Product ${productId} doesn't exist - Check logs`
         }
+        const product = new ProductDTO(response)
         return product
     }
 

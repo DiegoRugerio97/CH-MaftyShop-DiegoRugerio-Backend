@@ -1,7 +1,7 @@
 // Service class for Carts
 // Import repository instances
-import {cartsRepository, productsRepository} from "../Repositories/index.repository.js"
-
+import { cartsRepository, productsRepository } from "../Repositories/index.repository.js"
+import CartDTO from "../DTOs/cart.dto.js"
 class CartsService {
 
     // Finds Cart by ID
@@ -9,11 +9,14 @@ class CartsService {
         if (!cartsRepository.isIdValid(cartId)) {
             throw `Cart ID ${cartId} is not a valid format`
         }
-        const cart = await cartsRepository.getCartContentById(cartId)
-        if (!cart) {
+        const response = await cartsRepository.getCartContentById(cartId)
+        if (!response) {
             throw `Cart ${cartId} doesn't exist - Check logs`
         }
-        return cart.products
+        const cartDTO = new CartDTO(response.products)
+        const cart = cartDTO.getCartProducts()
+        const cartTotal = this.getCartTotal(cart)
+        return { cart, cartTotal }
     }
 
     // Creates Cart in collection
@@ -41,7 +44,7 @@ class CartsService {
 
         const productInCart = await cartsRepository.getProductInCart(cart, productId)
         if (!productInCart) {
-            return await cartsRepository.addNewProductToCart(cart, product, productQuantity)
+            return await cartsRepository.addNewProductToCart(cart, productId, productQuantity)
         }
         else {
             return await cartsRepository.addExistingProductToCart(cart, productInCart, productQuantity)
@@ -124,6 +127,28 @@ class CartsService {
             throw `Product with ID ${productId} does not exist in Cart with ID ${cartId}`
         }
         return await cartsRepository.deleteProductFromCart(cart, productInCart)
+    }
+
+    getCartTotal(cart) {
+        const initialValue = 0
+        const cartTotal = cart.reduce(
+            (total, product) => total + (product.price * product.quantity),
+            initialValue)
+        return cartTotal
+    }
+    
+    getStockValidation(cart) {
+        const availableProducts = []
+        const outOfStockProducts = []
+        for (const product of cart) {
+            if (product.stock >= product.quantity) {
+                availableProducts.push({ _id: product.id, quantity: product.quantity })
+            }
+            else {
+                outOfStockProducts.push({ _id: product.id, quantity: product.quantity })
+            }
+        }
+        return { availableProducts, outOfStockProducts }
     }
 }
 

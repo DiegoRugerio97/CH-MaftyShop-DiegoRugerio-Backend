@@ -46,9 +46,9 @@ class CartDAO {
     }
 
     // Adds the ID of the product in the subdocument array 
-    async addNewProductToCart(cart, product, productQuantity) {
+    async addNewProductToCart(cart, productId, productQuantity) {
         try {
-            cart.products.addToSet({ _id: product._id, quantity: productQuantity })
+            cart.products.addToSet({ _id: productId, quantity: productQuantity })
             await cart.save()
             return cart
         } catch {

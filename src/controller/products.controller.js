@@ -23,9 +23,9 @@ class ProductsController {
 
             const paginateResponse = await productsService.getProducts(limit, pageNumber, sort, queryField, queryVal, URL)
 
-            const { docs, totalPages, prevPage, nextPage, page, hasPrevPage, hasNextPage, prevLink, nextLink } = paginateResponse
+            const { products, totalPages, prevPage, nextPage, page, hasPrevPage, hasNextPage, prevLink, nextLink } = paginateResponse
 
-            const response = { status: "SUCCESS", payload: docs, totalPages: totalPages, prevPage: prevPage, nextPage: nextPage, page: page, hasPrevPage: hasPrevPage, hasNextPage: hasNextPage, prevLink: prevLink, nextLink: nextLink }
+            const response = { status: "SUCCESS", payload: products, totalPages: totalPages, prevPage: prevPage, nextPage: nextPage, page: page, hasPrevPage: hasPrevPage, hasNextPage: hasNextPage, prevLink: prevLink, nextLink: nextLink }
             res.status(200).send(response)
         } catch (error) {
             res.status(400).send({ status: "ERROR", error })
