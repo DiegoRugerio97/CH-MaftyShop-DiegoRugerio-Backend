@@ -1,8 +1,7 @@
 // Passport
 import GitHubStrategy from 'passport-github2'
-// Models
-import userModel from '../../DAOs/Models/user.model.js'
-import cartModel from '../../DAOs/Models/cart.model.js'
+// Services
+import {cartsService, usersService} from "../../services/index.service.js"
 import { createHash } from '../../util.js'
 // ENV
 import config from '../config.js'
@@ -10,9 +9,9 @@ import config from '../config.js'
 // Github strategy
 const verifyRegisterGitHub = async (accessToken, refreshToken, profile, done) => {
     try {
-        let user = await userModel.findOne({ email: profile.profileUrl }).lean().exec()
+        const user = await usersService.getUserByEmail(profile.profileUrl)
         if (!user) {
-            const response = await cartModel.create({})
+            const response = await cartsService.createCart()
             let newUser = {
                 first_name: profile.username,
                 last_name: 'default',
@@ -21,7 +20,7 @@ const verifyRegisterGitHub = async (accessToken, refreshToken, profile, done) =>
                 password: createHash(config.SECRET),
                 cart: response._id
             };
-            let result = await userModel.create(newUser);
+            let result = await usersService.createUser(newUser)
             done(null, result);
         }
         else {

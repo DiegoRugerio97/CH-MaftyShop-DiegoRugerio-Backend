@@ -2,7 +2,7 @@
   <h1 class="mx-auto fs-1 text-center">Products</h1>
   <div id="products" class="row mx-auto">
     {{#each products}}
-        <div id={{_id}} class="col-md-4 mb-3 d-flex align-items-stretch mx-auto">
+        <div id={{id}} class="col-md-4 mb-3 d-flex align-items-stretch mx-auto">
         <div class="card" style="width: 18rem;">
           <img src={{thumbnails.[0]}} class="card-img-top" alt="Product image" style="height:400px; width:100%; object-fit:cover;"/>
           <div class="card-body d-flex flex-column">
@@ -14,7 +14,7 @@
               type="submit"
               class="btn btn-dark align-self-end col-auto"
             >Add To Cart</button>
-            <form action="/products/{{_id}}" method="get" class="col-auto my-0 align-self-end">
+            <form action="/products/{{id}}" method="get" class="col-auto my-0 align-self-end">
               <button
                 type="submit"
                 class="btn btn-dark"

@@ -1,0 +1,27 @@
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+<div class="container">
+ <div class="container py-5">
+    <h1 class="mb-5">Tickets creados por usuario : {{user.email}}</h1>
+    <div class="row">
+        <div class="col-lg-8">
+            <!-- Tickets -->
+            <div class="card mb-4">
+                <div class="card-body">
+                  {{#each tickets}}
+                    <div class="row cart-item">
+                        <div class="col-md-5">
+                            <h5 class="card-title">Código: {{code}}</h5>
+                            <h5 class="card-title">ID : {{id}}</h5>
+                            <p class="text-muted">Total : ${{amount}}</p>
+                            <p class="text-muted">Cantidad de productos: {{products.length}}</p>
+                            <p class="text-muted">Creado: {{createdAt}}</p>
+                        </div>
+                    </div>
+                    <hr>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+</div>

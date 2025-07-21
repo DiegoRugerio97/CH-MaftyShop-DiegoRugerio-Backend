@@ -127,13 +127,13 @@ import { dirname } from 'path';
 const __filename = fileURLToPath(import.meta.url)
 export const __dirname = dirname(__filename)
 
-// JWT Uitlities
+// JWT Utilities
 import jwt from "jsonwebtoken"
 import config from './config/config.js'
 const SECRET = config.SECRET
 
-export const generateToken = (payload) => {
-    const token = jwt.sign({ payload }, SECRET, {expiresIn:'24h'})
+export const generateToken = (payload, expiresIn) => {
+    const token = jwt.sign({ payload }, SECRET, { expiresIn })
     return token
 }
 
@@ -152,3 +152,34 @@ import bcrypt from 'bcrypt'
 export const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10))
 
 export const isPasswordValid = (user, password) => bcrypt.compareSync(password, user.password)
+
+// Mailing
+import nodemailer from "nodemailer"
+const { ORIGIN_MAIL, ORIGIN_PASS } = config
+
+const mailTransport = nodemailer.createTransport({
+    service: 'gmail',
+    port: 587,
+    auth: {
+        user: ORIGIN_MAIL,
+        pass: ORIGIN_PASS
+    }
+})
+
+export const sendPasswordResetMail = async (token, email, URL) => {
+    const resetURL = `${URL}?token=${token}`
+    const mailContent = ` <div class="container">
+    <h1>Equipo de cuentas de Mafty Shop</h1>
+    <p>Haz click en el siguiente enlace para reestablecer tu contraseña</p>
+    <a href="${resetURL}">Reestablece tu contraseña</a>
+  </div>`
+
+
+    return mailTransport.sendMail({
+        from: `Mafty Shop Account Management <${ORIGIN_MAIL}>`,
+        to: email,
+        subject: 'Recuperación de contraseña - Mafty Shop',
+        html: mailContent,
+        attachements: []
+    })
+}
