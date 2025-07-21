@@ -27,6 +27,9 @@ class TicketsService {
         const cartTotal = cartsService.getCartTotal(cartContent)
         const { availableProducts, outOfStockProducts } = cartsService.getStockValidation(cartContent)
 
+        if (!cartContent.length) {
+            throw `Cart is empty`
+        }
         if (!availableProducts.length) {
             throw `Unable to create ticket due to lack of stock`
         }
